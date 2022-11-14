@@ -14,5 +14,5 @@ const allProducts = [
 ]
 
 module.exports = {
-  allProducts,
+  allProducts
 };
