@@ -50,13 +50,14 @@ services:
     # Se a linha de cima não resolver, esta abaixo é outra opção
     # platform: linux/arm64/v8
     container_name: store_manager_db
+    restart: on-failure
     image: mysql:8.0.23
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       # Garanta que não haverá conflitos de porta com um banco que esteja
       # rodando localmente
-      - 3306:3306
+      - 3308:3306
     networks:
       # Conecta esse serviço com a rede que criada 
       - store_manager_net
