@@ -1,4 +1,4 @@
-const BAD_REQUEST = 400;
+const { BAD_REQUEST } = require('../utils/errorMap');
 
 function productNameValidation(req, res, next) {
 const { name } = req.body;
