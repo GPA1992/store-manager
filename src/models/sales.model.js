@@ -53,6 +53,7 @@ const salesById = async (id) => {
     vendas_produtos.sale_id, vendas_produtos.product_id;`, [id]);
   return camelize(result);
 };
+
 module.exports = {
     salesById,
     getSales,
