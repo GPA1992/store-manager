@@ -1,5 +1,5 @@
 const { productsModel } = require('../models');
-const { validateProductId } = require('./validations/validationProducts');
+const { validateProductId } = require('./validations/products.validate');
 
 const getProducts = async () => {
   const result = await productsModel.getProducts();

@@ -4,6 +4,8 @@ const salesValitade = require('../middlewares/salesValidate');
 
 const router = express.Router();
 
+router.get('/:id', salesControler.showSaleById);
+router.get('/', salesControler.showSales);
 router.post('/',
   salesValitade.quantityValidation,
   salesValitade.productIdValidation,
