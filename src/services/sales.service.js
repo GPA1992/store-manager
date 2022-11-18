@@ -21,8 +21,27 @@ const salesListById = async (saleId) => {
   return { type: null, message: sale };
 };
 
+const deleteSale = async (saleId) => {
+  const errorInputValue = await saleIdValidate(saleId);
+  if (errorInputValue.type) return errorInputValue;
+  const deleteSaleById = salesModel.deleteSaleById(saleId);
+  return { type: null, message: deleteSaleById };
+};
+
+const attSale = async (saleAtt, saleId) => {
+  const errorInputValue = await saleIdValidate(saleId);
+  if (errorInputValue.type) return errorInputValue;
+  saleAtt.forEach(async (s) => {
+    await salesModel.attSale(s, saleId);
+  });
+
+  return { type: null, message: { saleId, itemsUpdated: saleAtt } };
+};
+
 module.exports = {
   newSale,
   salesList,
   salesListById,
+  deleteSale,
+  attSale,
 };

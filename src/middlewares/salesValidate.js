@@ -1,5 +1,5 @@
 const { BAD_REQUEST, INVALID_VALUE, NOT_FOUND } = require('../utils/errorMap');
-const { productsModel } = require('../models/index');
+const { productsModel, salesModel } = require('../models/index');
 
 async function productIdValidation(req, res, next) {
   const allProducts = await productsModel.getProducts();
@@ -33,7 +33,15 @@ const { body } = req;
   return next();
 }
 
+async function salesValitation(req, res, next) {
+  const { id } = req.params;
+  const salesById = await salesModel.salesById(id);
+  if (salesById.length === 0) return res.status(NOT_FOUND).json({ message: 'Sale not found' });
+  return next();
+}
+
  module.exports = {
    productIdValidation,
    quantityValidation,
+   salesValitation,
   };

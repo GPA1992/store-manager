@@ -1,5 +1,5 @@
 const { productServices } = require('../services');
-const { CREATED, OK } = require('../utils/errorMap');
+const { CREATED, OK, NO_CONTENT } = require('../utils/errorMap');
 
 const listProducts = async (_req, res) => {
   const { type, message } = await productServices.getProducts();
@@ -31,9 +31,17 @@ const changedProductById = async (req, res) => {
   return res.status(OK).json({ ...body, id });
 };
 
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+  const { type, message } = await productServices.deleteProduct(Number(id));
+  if (type) return res.status(type).json({ message });
+  return res.status(NO_CONTENT).json(NO_CONTENT);
+};
+
 module.exports = {
   listProducts,
   getProduct,
   addProduct,
   changedProductById,
+  deleteProduct,
 };

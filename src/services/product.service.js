@@ -28,9 +28,18 @@ const editProduct = async (productId, newProductName) => {
   return { type: null, message: changedProduct };
 };
 
+const deleteProduct = async (productId) => {
+  const errorInputValue = await validateProductId(productId);
+  if (errorInputValue.type) return errorInputValue;
+  const deleteProductById = productsModel.deleteProductById(productId);
+
+  return { type: null, message: deleteProductById };
+};
+
 module.exports = {
   getProducts,
   getProductById,
   insertNewProduct,
   editProduct,
+  deleteProduct,
 };

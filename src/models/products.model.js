@@ -25,10 +25,16 @@ const insertProduct = async (product) => {
 };
 
 const editProductById = async (productId, newProductName) => {
-  console.log(productId, newProductName);
   const [result] = await connection.execute(
     'UPDATE StoreManager.products SET name = ? WHERE id = ?',
     [newProductName, productId],
+  );
+  return result;
+};
+
+const deleteProductById = async (productId) => {
+  const [result] = await connection.execute(
+    'DELETE FROM StoreManager.products WHERE id = ?', [productId],
   );
   return result;
 };
@@ -38,4 +44,5 @@ const editProductById = async (productId, newProductName) => {
     findById,
     insertProduct,
     editProductById,
+    deleteProductById,
   };
