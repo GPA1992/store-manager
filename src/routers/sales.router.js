@@ -9,11 +9,12 @@ router.put('/:id',
   salesValitade.productIdValidation,
   salesValitade.salesValitation,
   salesControler.attCurrentSale);
-router.get('/:id', salesControler.showSaleById);
-router.get('/', salesControler.showSales);
 router.post('/',
   salesValitade.quantityValidation,
   salesValitade.productIdValidation,
   salesControler.addNewSale);
+router.get('/:id', salesControler.showSaleById);
+router.get('/', salesControler.showSales);
+
 router.delete('/:id', salesControler.deleteSale);
 module.exports = router;

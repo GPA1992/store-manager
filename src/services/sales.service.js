@@ -31,10 +31,10 @@ const deleteSale = async (saleId) => {
 const attSale = async (saleAtt, saleId) => {
   const errorInputValue = await saleIdValidate(saleId);
   if (errorInputValue.type) return errorInputValue;
-  saleAtt.forEach(async (s) => {
-    await salesModel.attSale(s, saleId);
-  });
 
+  saleAtt.forEach(async (sale) => {
+    await salesModel.attSale(sale, saleId);
+  });
   return { type: null, message: { saleId, itemsUpdated: saleAtt } };
 };
 

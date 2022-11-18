@@ -5,7 +5,7 @@ const addNewSale = async (req, res) => {
   const { body } = req;
   const { type, message } = await salesService.newSale(body);
   if (type) return res.status(type).json(message);
-
+  console.log(message);
   res.status(CREATED).json(message);
 };
 
