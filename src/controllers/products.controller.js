@@ -26,6 +26,8 @@ const addProduct = async (req, res) => {
 const changedProductById = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
+  console.log(id);
+  console.log(body);
   const { type, message } = await productServices.editProduct(id, body);
   if (type) return res.status(type).json({ message });
   return res.status(OK).json({ ...body, id });

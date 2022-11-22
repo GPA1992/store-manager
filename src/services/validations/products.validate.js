@@ -10,5 +10,4 @@ const validateProductId = async (productId) => {
 
 module.exports = {
   validateProductId,
-
 };

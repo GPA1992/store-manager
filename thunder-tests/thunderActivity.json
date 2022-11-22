@@ -5,12 +5,17 @@
     "containerId": "",
     "name": "http://localhost:3000/products/3",
     "url": "http://localhost:3000/products/3",
-    "method": "GET",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2022-11-12T14:19:40.841Z",
-    "modified": "2022-11-12T15:39:48.357Z",
+    "modified": "2022-11-22T15:28:27.132Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"ESPADA DO HOMEM ARANHA\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {
