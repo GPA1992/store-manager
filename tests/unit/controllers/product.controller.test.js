@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsModel } = require('../../../src/models')
-const { allProducts, firstProduct, newProduct, editResult } = require('./mocks/product.controller.mock')
+const { allProducts, firstProduct, newProduct, editResult, editedProduct, addedProduct } = require('./mocks/product.controller.mock')
 const { expect } = chai;
 chai.use(sinonChai);
 chai.use(chaiHttp);
@@ -35,6 +35,7 @@ describe('Teste de unidade da camada services', function () {
      expect(response.body).to.be.deep.equal(allProducts)
     });
     it('Testa a função getProduct, que deve retornar um produto pelo ID', async function () {
+       // arrange
       sinon
        .stub(connection, 'execute')
        .onFirstCall()
@@ -49,16 +50,47 @@ describe('Teste de unidade da camada services', function () {
      expect(response.status).to.be.equal(200);
      expect(response.body).to.be.deep.equal(firstProduct)
     });
-    /* it('Testa a função addProduct, que deve inserir um novo produto', async function () {
+
+    it('Testa a função addProduct, que deve inserir um novo produto', async function () {
+ // arrange
+      sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([{ insertId: 4 }])
+      .onSecondCall()
+      .resolves(addedProduct)
+      .onThirdCall()
+        .resolves(addedProduct);
+
+     const response = await chai
+      .request(app)
+       .post('/products').send({ name: 'ProdutoX' })
+
+      expect(response.status).to.be.equal(201);
+      expect(response.body).to.be.deep.equal(addedProduct)
+    });
+
+    it('Testa a função changedProductById, que deve editar um produto', async function () {
       // arrange
+      sinon.stub(productsModel, 'findById').resolves(firstProduct)
+
+      sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([{ affectedRows: 1 }])
+      .onSecondCall()
+      .resolves(editedProduct)
+      .onThirdCall()
+        .resolves(editedProduct)
+
       // act
+      const response = await chai
+      .request(app)
+       .put('/products/4').send({ name: 'Corsa Azul' })
+
       // assert
-    }); */
-    /* it('Testa a função changedProductById, que deve editar um produto', async function () {
-      // arrange
-      // act
-      // assert
-    }); */
+      expect(response.status).to.be.equal(200);
+      expect(response.body).to.be.deep.equal(editedProduct)
+
+    });
     /* it('Testa a função deleteProduct, que deve deletar um produto', async function () {
       // arrange
       // act

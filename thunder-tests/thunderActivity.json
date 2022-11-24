@@ -4,16 +4,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/3",
-    "url": "http://localhost:3000/products/3",
-    "method": "PUT",
+    "url": "http://localhost:3000/products",
+    "method": "POST",
     "sortNum": 0,
     "created": "2022-11-12T14:19:40.841Z",
-    "modified": "2022-11-22T15:28:27.132Z",
+    "modified": "2022-11-24T14:04:34.715Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"ESPADA DO HOMEM ARANHA\"\n}",
+      "raw": "{\n  \"name\": \"ProdutoX\"\n}",
       "form": []
     },
     "tests": []
@@ -42,13 +42,18 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/2",
-    "url": "http://localhost:3000/products",
-    "method": "GET",
+    "url": "http://localhost:3000/products/1",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2022-11-12T15:39:51.091Z",
-    "modified": "2022-11-23T20:44:54.545Z",
+    "modified": "2022-11-24T16:08:29.811Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"asdasdasdasdman\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]

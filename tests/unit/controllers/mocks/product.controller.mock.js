@@ -30,9 +30,14 @@ const editResult = {
   changedRows: 1
 }
 
+const addedProduct = { "name": "ProdutoX", "id": 4 };
+const editedProduct = { "name": "Corsa Azul", "id": '4' };
+
 module.exports = {
   allProducts,
   firstProduct,
   newProduct,
   editResult,
+  addedProduct,
+  editedProduct,
 };
