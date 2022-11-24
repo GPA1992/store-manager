@@ -31,7 +31,7 @@ const editProduct = async (productId, newProductName) => {
 const deleteProduct = async (productId) => {
   const errorInputValue = await validateProductId(productId);
   if (errorInputValue.type) return errorInputValue;
-  const deleteProductById = productsModel.deleteProductById(productId);
+  const deleteProductById = await productsModel.deleteProductById(productId);
 
   return { type: null, message: deleteProductById };
 };
