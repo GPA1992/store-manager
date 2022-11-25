@@ -39,6 +39,7 @@ const deleteProduct = async (productId) => {
 const searchProduct = async (productName) => {
   const allProducts = await productsModel.getProducts();
   const productFilterByName = allProducts.filter((p) => p.name.includes(productName));
+  console.log(productFilterByName);
   return { type: null, message: productFilterByName };
 };
 

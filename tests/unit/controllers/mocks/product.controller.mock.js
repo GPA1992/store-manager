@@ -33,6 +33,8 @@ const editResult = {
 const addedProduct = { "name": "ProdutoX", "id": 4 };
 const editedProduct = { "name": "Corsa Azul", "id": '4' };
 
+const thorHamer = [{ id: 1, name: 'Martelo de Thor' }];
+
 module.exports = {
   allProducts,
   firstProduct,
@@ -40,4 +42,5 @@ module.exports = {
   editResult,
   addedProduct,
   editedProduct,
+  thorHamer
 };

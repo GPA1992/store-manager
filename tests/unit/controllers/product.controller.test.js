@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsModel } = require('../../../src/models')
-const { allProducts, firstProduct, newProduct, editResult, editedProduct, addedProduct } = require('./mocks/product.controller.mock')
+const { allProducts, firstProduct, thorHamer, editedProduct, addedProduct } = require('./mocks/product.controller.mock')
 const { expect } = chai;
 chai.use(sinonChai);
 chai.use(chaiHttp);
@@ -81,7 +81,7 @@ describe('Teste de unidade da camada services', function () {
       .onThirdCall()
         .resolves(editedProduct)
 
-      // act
+      // act/*  */
       const response = await chai
       .request(app)
        .put('/products/4').send({ name: 'Corsa Azul' })
@@ -91,17 +91,45 @@ describe('Teste de unidade da camada services', function () {
       expect(response.body).to.be.deep.equal(editedProduct)
 
     });
-    /* it('Testa a função deleteProduct, que deve deletar um produto', async function () {
+    it('Testa a função deleteProduct, que deve deletar um produto', async function () {
       // arrange
+      sinon.stub(productsModel, 'findById').resolves(firstProduct)
+      sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([{ affectedRows: 1 }])
+      .onSecondCall()
+      .resolves(editedProduct)
+      .onThirdCall()
+        .resolves(editedProduct)
       // act
+      const response = await chai
+      .request(app)
+       .delete('/products/4').send()
       // assert
-    }); */
-    /* it(`Testa a função searchProductByname, que deve procurar um produto pelo nome,
+      expect(response.status).to.be.equal(204);
+      expect(response.body).to.be.deep.equal({})
+    });
+    it(`Testa a função searchProductByname, que deve procurar um produto pelo nome,
         ou letras que existem no nome`, async function () {
       // arrange
+      sinon.stub(productsModel, 'getProducts').resolves([allProducts]);
+       sinon
+       .stub(connection, 'execute')
+       .onFirstCall()
+        .resolves([[firstProduct]])
+      .onSecondCall()
+        .resolves([[firstProduct]])
       // act
+
+
+     const response = await chai
+      .request(app)
+       .get('/search?q=Martelo').send()
+      console.log(response.body);
       // assert
-    }); */
+      expect(response.status).to.be.equal(200);
+      expect(response.body).to.be.deep.equal(thorHamer)
+    });
 
   });
 });
