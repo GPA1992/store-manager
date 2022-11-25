@@ -1,8 +1,10 @@
 const { productsModel } = require('../models');
 const { validateProductId } = require('./validations/products.validate');
+const { NOT_FOUND } = require('../utils/errorMap');
 
 const getProducts = async () => {
   const result = await productsModel.getProducts();
+  if (!result) return { type: NOT_FOUND, message: 'Não existe uma lista de produtos' };
   return { type: null, message: result };
 };
 
@@ -16,6 +18,7 @@ const getProductById = async (productId) => {
 
 const insertNewProduct = async (product) => {
   const productId = await productsModel.insertProduct(product);
+  if (!productId) return { type: NOT_FOUND, message: 'Não foi inserido um produto' };
   return { type: null, message: { ...product, id: productId } };
 };
 
@@ -39,7 +42,6 @@ const deleteProduct = async (productId) => {
 const searchProduct = async (productName) => {
   const allProducts = await productsModel.getProducts();
   const productFilterByName = allProducts.filter((p) => p.name.includes(productName));
-  console.log(productFilterByName);
   return { type: null, message: productFilterByName };
 };
 

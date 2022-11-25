@@ -3,6 +3,8 @@ const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsModel } = require('../../../src/models')
+const { productServices } = require('../../../src/services')
+const productsController = require('../../../src/controllers/products.controller')
 const { allProducts, firstProduct, thorHamer, editedProduct, addedProduct } = require('./mocks/product.controller.mock')
 const { expect } = chai;
 chai.use(sinonChai);
@@ -24,15 +26,27 @@ describe('Teste de unidade da camada services', function () {
        .stub(connection, 'execute')
        .onFirstCall()
        .resolves([allProducts]);
-
       // act
      const response = await chai
       .request(app)
       .get('/products').send()
-
       // assert
      expect(response.status).to.be.equal(200);
      expect(response.body).to.be.deep.equal(allProducts)
+   });
+     it('Testa a função listProducts, quando não existe uma lista de produtos', async function () {
+      // arrange
+     sinon
+       .stub(connection, 'execute')
+       .onFirstCall()
+       .resolves([!allProducts]);
+      // act
+     const response = await chai
+      .request(app)
+      .get('/products').send()
+      // assert
+     expect(response.status).to.be.equal(404);
+     expect(response.body).to.be.deep.equal('Não existe uma lista de produtos')
     });
     it('Testa a função getProduct, que deve retornar um produto pelo ID', async function () {
        // arrange
@@ -51,6 +65,23 @@ describe('Teste de unidade da camada services', function () {
      expect(response.body).to.be.deep.equal(firstProduct)
     });
 
+    it('Testa a função getProduct, quando é inserido um ID invalido', async function () {
+       // arrange
+      sinon
+       .stub(connection, 'execute')
+       .onFirstCall()
+        .resolves([[!firstProduct]])
+      .onSecondCall()
+        .resolves([[{message: 'Product not found'}]])
+      // act
+     const response = await chai
+      .request(app)
+       .get('/products/888').send()
+      // assert
+     expect(response.status).to.be.equal(404);
+     expect(response.body).to.be.deep.equal({ message: 'Product not found' })
+    });
+
     it('Testa a função addProduct, que deve inserir um novo produto', async function () {
  // arrange
       sinon.stub(connection, 'execute')
@@ -67,6 +98,24 @@ describe('Teste de unidade da camada services', function () {
 
       expect(response.status).to.be.equal(201);
       expect(response.body).to.be.deep.equal(addedProduct)
+    });
+
+    it('Testa a função addProduct, quando não foi possivel inserir um produto novo', async function () {
+ // arrange
+      sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([{ insertId: false }])
+      .onSecondCall()
+      .resolves(!addedProduct)
+      .onThirdCall()
+        .resolves({ message: 'Não foi inserido um produto' });
+
+     const response = await chai
+      .request(app)
+       .post('/products').send({ name: 'ProdutoX' })
+
+      expect(response.status).to.be.equal(404);
+      expect(response.body).to.be.deep.equal({ message: 'Não foi inserido um produto' })
     });
 
     it('Testa a função changedProductById, que deve editar um produto', async function () {
@@ -91,6 +140,21 @@ describe('Teste de unidade da camada services', function () {
       expect(response.body).to.be.deep.equal(editedProduct)
 
     });
+
+    it('Testa a função changedProductById, quando não foi possivel editar um produto', async function () {
+      // arrange
+      sinon.stub(productsModel, 'findById').resolves(!firstProduct)
+
+      // act/*  */
+      const response = await chai
+      .request(app)
+        .put('/products/888').send({ name: "ALOHA" })
+
+      // assert
+      expect(response.status).to.be.equal(404);
+      expect(response.body).to.be.deep.equal({ message: "Product not found" })
+
+    });
     it('Testa a função deleteProduct, que deve deletar um produto', async function () {
       // arrange
       sinon.stub(productsModel, 'findById').resolves(firstProduct)
@@ -109,27 +173,36 @@ describe('Teste de unidade da camada services', function () {
       expect(response.status).to.be.equal(204);
       expect(response.body).to.be.deep.equal({})
     });
+    it('Testa a função deleteProduct, quando não foi possivel deletar um produto', async function () {
+      // arrange
+      sinon.stub(productsModel, 'findById').resolves(!firstProduct)
+
+      // act
+      const response = await chai
+      .request(app)
+       .delete('/products/4').send()
+      // assert
+      expect(response.status).to.be.equal(404);
+      expect(response.body).to.be.deep.equal({ message: "Product not found" })
+    });
     it(`Testa a função searchProductByname, que deve procurar um produto pelo nome,
         ou letras que existem no nome`, async function () {
       // arrange
-      sinon.stub(productsModel, 'getProducts').resolves([allProducts]);
-       sinon
-       .stub(connection, 'execute')
-       .onFirstCall()
-        .resolves([[firstProduct]])
-      .onSecondCall()
-        .resolves([[firstProduct]])
+      const res = {};
+      const req = {
+        query: { q:  'Martelo'}
+      }
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productServices, 'searchProduct').resolves({ type: null, message: thorHamer })
       // act
 
+      await productsController.searchProductByname(req, res);
 
-     const response = await chai
-      .request(app)
-       .get('/search?q=Martelo').send()
-      console.log(response.body);
       // assert
-      expect(response.status).to.be.equal(200);
-      expect(response.body).to.be.deep.equal(thorHamer)
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(thorHamer);
     });
-
   });
 });

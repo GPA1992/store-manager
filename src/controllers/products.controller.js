@@ -3,9 +3,7 @@ const { CREATED, OK, NO_CONTENT } = require('../utils/errorMap');
 
 const listProducts = async (_req, res) => {
   const { type, message } = await productServices.getProducts();
-
   if (type) return res.status(type).json(message);
-
   return res.status(OK).json(message);
 };
 
@@ -40,8 +38,8 @@ const deleteProduct = async (req, res) => {
 
 const searchProductByname = async (req, res) => {
   const { q } = req.query;
-  const { type, message } = await productServices.searchProduct(q);
-  if (type) return res.status(type).json(message);
+  const { /* type, */ message } = await productServices.searchProduct(q);
+  /* if (type) return res.status(type).json(message); */
   return res.status(OK).json(message);
 };
 
