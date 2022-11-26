@@ -3,8 +3,6 @@ const sinon = require('sinon');
 const chaiHttp = require('chai-http');
 const sinonChai = require('sinon-chai');
 const { productsModel } = require('../../../src/models')
-const { productServices } = require('../../../src/services')
-const productsController = require('../../../src/controllers/products.controller')
 const { allProducts, firstProduct, thorHamer, editedProduct, addedProduct } = require('./mocks/product.controller.mock')
 const { expect } = chai;
 chai.use(sinonChai);

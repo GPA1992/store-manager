@@ -1,20 +1,12 @@
 const { BAD_REQUEST, INVALID_VALUE, NOT_FOUND } = require('../utils/errorMap');
-const { productsModel, salesModel } = require('../models/index');
+const { salesModel } = require('../models/index');
 
 async function productIdValidation(req, res, next) {
-  const allProducts = await productsModel.getProducts();
   const { body } = req;
   const ifProductIdExist = body.every((sale) => 'productId' in sale);
-  const productVerify = body.every((sale) => allProducts.some((product) =>
-    product.id === sale.productId));
   if (!ifProductIdExist) {
     return res.status(BAD_REQUEST).json({
       message: '"productId" is required',
-    });
-  }
-  if (!productVerify) {
-    return res.status(NOT_FOUND).json({
-      message: 'Product not found',
     });
   }
   return next();

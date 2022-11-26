@@ -4,7 +4,8 @@ const { CREATED, OK, NO_CONTENT } = require('../utils/errorMap');
 const addNewSale = async (req, res) => {
   const { body } = req;
   const { type, message } = await salesService.newSale(body);
-  if (type) return res.status(type).json(message);
+  console.log(await salesService.newSale(body));
+  if (type) return res.status(type).json({ message });
   res.status(CREATED).json(message);
 };
 
@@ -35,7 +36,7 @@ const attCurrentSale = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
   const { type, message } = await salesService.attSale(body, id);
-  if (type) return res.status(type).json(message);
+  if (type) return res.status(type).json({ message });
   return res.status(OK).json(message);
 };
 module.exports = {

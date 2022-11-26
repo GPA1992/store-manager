@@ -1,6 +1,5 @@
 const { expect } = require('chai');
 const { salesService } = require('../../../src/services')
-const  salesValidate = require('../../../src/services/validations/sales.validate')
 const { salesModel } = require('../../../src/models')
 const { newSaleToAdd, saleToAtt } = require('./mocks/sales.service.mock')
 const sinon = require('sinon');
