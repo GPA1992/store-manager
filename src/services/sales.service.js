@@ -1,12 +1,11 @@
 const { salesModel } = require('../models');
 const { saleIdValidate } = require('./validations/sales.validate');
 
-const newSale = async (sale) => {
+const newSale = async (sales) => {
   const actualSaleID = await salesModel.actualSaleId();
-  sale.forEach(async (items) => {
-    await salesModel.insertSale(items, actualSaleID);
-  });
-  return { type: null, message: { id: actualSaleID, itemsSold: sale } };
+  const addAllNewSales = sales.map((items) => salesModel.insertSale(items, actualSaleID));
+  await Promise.all(addAllNewSales);
+  return { type: null, message: { id: actualSaleID, itemsSold: sales } };
 };
 
 const salesList = async () => {
@@ -32,9 +31,8 @@ const attSale = async (saleAtt, saleId) => {
   const errorInputValue = await saleIdValidate(saleId);
   if (errorInputValue.type) return errorInputValue;
 
-  saleAtt.forEach(async (sale) => {
-    await salesModel.attSale(sale, saleId);
-  });
+  const attAllSales = saleAtt.map((sale) => salesModel.attSale(sale, saleId));
+  await Promise.all(attAllSales);
   return { type: null, message: { saleId, itemsUpdated: saleAtt } };
 };
 
