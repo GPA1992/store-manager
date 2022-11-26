@@ -65,7 +65,7 @@ const attSale = async (sale, saleId) => {
   const [result] = await connection.execute(
     'UPDATE StoreManager.sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?',
       [sale.quantity, saleId, sale.productId],
-    );
+  );
     return result;
 };
 module.exports = {

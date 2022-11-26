@@ -38,8 +38,7 @@ const deleteProduct = async (req, res) => {
 
 const searchProductByname = async (req, res) => {
   const { q } = req.query;
-  const { /* type, */ message } = await productServices.searchProduct(q);
-  /* if (type) return res.status(type).json(message); */
+  const { message } = await productServices.searchProduct(q);
   return res.status(OK).json(message);
 };
 
