@@ -185,24 +185,20 @@ describe('Teste de unidade da camada services', function () {
       expect(response.status).to.be.equal(404);
       expect(response.body).to.be.deep.equal({ message: "Product not found" })
     });
-    it(`Testa a função searchProductByname, que deve procurar um produto pelo nome,
+     it(`Testa a função searchProductByname, que deve procurar um produto pelo nome,
         ou letras que existem no nome`, async function () {
       // arrange
-      const res = {};
-      const req = {
-        query: { q:  'Martelo'}
-      }
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-      sinon.stub(productServices, 'searchProduct').resolves({ type: null, message: thorHamer })
+       sinon
+       .stub(connection, 'execute')
+       .onFirstCall()
+       .resolves([thorHamer]);
       // act
-
-      await productsController.searchProductByname(req, res);
-
+     const response = await chai
+      .request(app)
+       .get('/products/search').query({ q: 'Martelo' })
       // assert
-      expect(res.status).to.have.been.calledWith(200);
-      expect(res.json).to.have.been.calledWith(thorHamer);
+     expect(response.status).to.be.equal(200);
+     expect(response.body).to.be.deep.equal(thorHamer)
     });
   });
 });
