@@ -12,7 +12,6 @@ const productValidationToNewSale = async (saleItems) => {
   const allProducts = await productsModel.getProducts();
   const productVerify = saleItems.every((sale) => allProducts.some((product) =>
     product.id === sale.productId));
-  console.log(productVerify);
   if (!productVerify) return { type: NOT_FOUND, message: 'Product not found' };
   return { type: null, message: '' };
 };

@@ -21,27 +21,24 @@ describe('Teste de unidade da camada services', function () {
     afterEach(sinon.restore);
     it('Testa a função addNewSale que deve adicionar uma nova sale', async function () {
       // arrange
+      sinon.stub(productsModel, 'getProducts').resolves(allProducts)
+      sinon.stub(salesModel, 'actualSaleId').resolves(3)
 
-      sinon.stub(productsModel, 'getProducts').resolves([allProducts])
-      sinon.stub(salesModel, 'actualSaleId').resolves({ insertId: 3 })
-      sinon.stub(salesModel, 'insertSale').resolves([editResultFromInserSales])
-
-
-
-      /* sinon.stub(connection, 'execute')
+      sinon.stub(connection, 'execute')
       .onFirstCall()
       .resolves([ [ { affectedRows: 1 } ], [ { affectedRows: 1 } ] ])
       .onSecondCall()
       .resolves([{ insertId: 3 }])
       .onThirdCall()
-        .resolves([[saleAddedResponse]]) */
+        .resolves(saleAddedResponse)
 
       // act
      const response = await chai
       .request(app)
        .post('/sales').send(saleToAdd)
 
-     expect(response.status).to.be.equal(200);
+      // assert
+     expect(response.status).to.be.equal(201);
      expect(response.body).to.be.deep.equal(saleAddedResponse)
     })
   });

@@ -94,22 +94,7 @@ const saleAddedResponse = {
   ]
 }
 
-const editResultFromInserSales = [{
-  fieldCount: 0,
-  affectedRows: 1,
-  insertId: 0,
-  info: '',
-  serverStatus: 2,
-  warningStatus: 0
-},
-{
-  fieldCount: 0,
-  affectedRows: 1,
-  insertId: 0,
-  info: '',
-  serverStatus: 2,
-  warningStatus: 0
-}]
+
 module.exports = {
   saleItem,
   allSales,
@@ -117,5 +102,4 @@ module.exports = {
   saleToAtt,
   saleToAdd,
   saleAddedResponse,
-  editResultFromInserSales,
 };
