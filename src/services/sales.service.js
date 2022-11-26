@@ -23,8 +23,8 @@ const salesListById = async (saleId) => {
 const deleteSale = async (saleId) => {
   const errorInputValue = await saleIdValidate(saleId);
   if (errorInputValue.type) return errorInputValue;
-  const deleteSaleById = salesModel.deleteSaleById(saleId);
-  return { type: null, message: deleteSaleById };
+  await salesModel.deleteSaleById(saleId);
+  return { type: null, message: {} };
 };
 
 const attSale = async (saleAtt, saleId) => {

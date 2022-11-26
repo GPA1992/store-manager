@@ -18,11 +18,11 @@ const insertSale = async (sale, id) => {
     .map((_key) => '?')
     .join(', ');
 
-    const [{ insertId }] = await connection.execute(
+    const [result] = await connection.execute(
     `INSERT INTO StoreManager.sales_products (${columns}, sale_id) VALUES (${placeholders}, ?)`,
       [...Object.values(sale), id],
     );
-    return insertId;
+    return result;
 };
 
 const getSales = async () => {

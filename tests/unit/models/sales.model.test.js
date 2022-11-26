@@ -19,12 +19,12 @@ describe('Teste de unidade da camada model', function () {
     })
     it('Testa a função insetSale, que deve inserir uma nova venda', async function () {
       //arrange
-      sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+      sinon.stub(connection, 'execute').resolves([{ affectedRows: 1, }]);
 
       //act
       const result = await salesModel.insertSale(saleItem, 5)
       //assert
-      expect(result).to.be.deep.equal(4)
+      expect(result.affectedRows).to.be.deep.equal(1)
     })
     it('Testa a função getSales, retornar todas as sales', async function () {
      // arrange
